@@ -30,10 +30,8 @@ func (v *Vector2) Add(other *Vector2) *Vector2 {
 	return &Vector2{X: x, Y: y}
 }
 
-func (v *Vector2) Magnitude() float64 {
-	x2 := v.X * v.X
-	y2 := v.Y * v.Y
-	return math.Sqrt(x2 + y2)
+func (v *Vector2) MagnitudeSqrd() float64 {
+	return v.X * v.X + v.Y * v.Y
 }
 
 func (v *Vector2) Dot(other *Vector2) float64 {
@@ -48,3 +46,18 @@ func (v *Vector2) Negate() *Vector2 {
 	return &Vector2{X: -v.X, Y: -v.Y}
 }
 
+func (v *Vector2) Equals(location *Vector2) bool {
+	return v.X == location.X && v.Y == location.Y
+}
+
+func (v *Vector2) Lerp(end *Vector2, speed float64) *Vector2 {
+	resVector := v.Add(end)
+        // TODO: Optimize out sqrt()
+	d := math.Sqrt(resVector.MagnitudeSqrd())	  
+	step := d / speed
+	for ! v.Equals(end) {
+		v.Add(resVector.Scale(step))
+		fmt.Printf("vector at %v\n", v)
+	}
+	return end
+}

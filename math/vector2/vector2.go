@@ -31,7 +31,13 @@ func (v *Vector2) Add(other *Vector2) *Vector2 {
 }
 
 func (v *Vector2) MagnitudeSqrd() float64 {
-	return v.X * v.X + v.Y * v.Y
+	return v.X*v.X + v.Y*v.Y
+}
+
+func (v *Vector2) Distance(other *Vector2) float64 {
+	resVector := v.Add(other)
+	m2 := resVector.MagnitudeSqrd()
+	return math.Sqrt(m2)
 }
 
 func (v *Vector2) Dot(other *Vector2) float64 {
@@ -50,14 +56,8 @@ func (v *Vector2) Equals(location *Vector2) bool {
 	return v.X == location.X && v.Y == location.Y
 }
 
-func (v *Vector2) Lerp(end *Vector2, speed float64) *Vector2 {
-	resVector := v.Add(end)
-        // TODO: Optimize out sqrt()
-	d := math.Sqrt(resVector.MagnitudeSqrd())	  
-	step := d / speed
-	for ! v.Equals(end) {
-		v.Add(resVector.Scale(step))
-		fmt.Printf("vector at %v\n", v)
-	}
-	return end
+func (v *Vector2) Lerp(end *Vector2, t float64) *Vector2 {
+	newX := v.X + t*(end.X - v.X)
+	newY := v.Y + t*(end.Y - v.Y)
+	return &Vector2{X: newX, Y: newY}
 }

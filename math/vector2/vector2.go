@@ -2,7 +2,7 @@ package vector2
 
 import (
 	"fmt"
-	"math"
+	"physicsengine/math/utils"
 )
 
 type Vector2 struct {
@@ -37,7 +37,7 @@ func (v *Vector2) MagnitudeSqrd() float64 {
 func (v *Vector2) Distance(other *Vector2) float64 {
 	resVector := v.Add(other)
 	m2 := resVector.MagnitudeSqrd()
-	return math.Sqrt(m2)
+	return utils.Sqrt(m2)
 }
 
 func (v *Vector2) Dot(other *Vector2) float64 {
